@@ -127,7 +127,6 @@ class Player():
 
 		return game_over
 
-
 class World():
 	def __init__(self, data):
 		self.tile_list = []
@@ -198,8 +197,6 @@ world_data = [
 [1, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
-]
-
 
 player = Player(100, screen_height - 130)
 

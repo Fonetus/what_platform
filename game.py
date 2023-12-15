@@ -44,7 +44,7 @@ class Player():
 		self.jumped = False
 		self.direction = 0
 
-	def update(self):
+	def update(self, game_over):
 		dx = 0
 		dy = 0
 		walk_cooldown = 5

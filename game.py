@@ -17,8 +17,7 @@ tile_size = 50
 
 
 #load images
-sun_img = pygame.image.load('img/sun.png')
-bg_img = pygame.image.load('img/sky.png')
+bg_img = pygame.image.load('img/Backgrounds/blue.png')
 
 
 class Player():
@@ -28,7 +27,7 @@ class Player():
 		self.index = 0
 		self.counter = 0
 		for num in range(1, 5):
-			img_right = pygame.image.load(f'img/guy{num}.png')
+			img_right = pygame.image.load(f'img/frog{num}.png')
 			img_right = pygame.transform.scale(img_right, (40, 80))
 			img_left = pygame.transform.flip(img_right, True, False)
 			self.images_right.append(img_right)
@@ -109,8 +108,8 @@ class World():
 		self.tile_list = []
 
 		#load images
-		dirt_img = pygame.image.load('img/dirt.png')
-		grass_img = pygame.image.load('img/grass.png')
+		dirt_img = pygame.image.load('img/block.png')
+		grass_img = pygame.image.load('img/block_snow.png')
 
 		row_count = 0
 		for row in data:
@@ -166,14 +165,12 @@ world_data = [
 
 player = Player(100, screen_height - 130)
 world = World(world_data)
-
 run = True
 while run:
 
 	clock.tick(fps)
 
 	screen.blit(bg_img, (0, 0))
-	screen.blit(sun_img, (100, 100))
 
 	world.draw()
 

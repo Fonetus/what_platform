@@ -40,10 +40,12 @@ game_over_fx.set_volume(0.5)
 
 # Function to reset level
 def reset_level(level):
+	# Return the character, lava, exit to the beginning
 	player.reset(100, screen_height - 130)
 	lava_group.empty()
 	exit_group.empty()
-	
+
+	# Сhecking the existence of a file
 	if path.exists(f'level{level}_data'):
 	    pickle_in = open(f'level{level}_data', 'rb')
 	    world_data = pickle.load(pickle_in)
@@ -54,6 +56,7 @@ def reset_level(level):
 	
 
 class Button():
+	# Button initialisation
 	def __init__(self, x, y, image):
 		self.image = image
 		self.rect = self.image.get_rect()
@@ -83,6 +86,7 @@ class Button():
 
 
 class Player():
+	# Player initialisation
 	def __init__(self, x, y):
 		self.reset(x, y)
 		
@@ -95,6 +99,7 @@ class Player():
 			# Get keypresses
 			key = pygame.key.get_pressed()
 			
+			# Jump
 			if key[pygame.K_UP] and self.jumped == False and self.in_air == False:
 				jump_fx.play()
 				self.vel_y = -15
@@ -103,16 +108,19 @@ class Player():
 			if key[pygame.K_UP] == False:
 				self.jumped = False
 				
+			# Move left	
 			if key[pygame.K_LEFT]:
 				dx -= 5
 				self.counter += 1
 				self.direction = -1
-				
+
+			# Move right
 			if key[pygame.K_RIGHT]:
 				dx += 5
 				self.counter += 1
 				self.direction = 1
-				
+
+			# Stop
 			if key[pygame.K_LEFT] == False and key[pygame.K_RIGHT] == False:
 				self.counter = 0
 				self.index = 0
@@ -136,12 +144,9 @@ class Player():
 
 			# Add gravity
 			self.vel_y += 1
-			
 			if self.vel_y > 10:
 				self.vel_y = 10
-				
 			dy += self.vel_y
-	
 			# Check for collision
 			self.in_air = True
 			
@@ -173,14 +178,14 @@ class Player():
 			# Update player coordinates
 			self.rect.x += dx
 			self.rect.y += dy
-
+		# Players death
 		elif game_over == -1:
 			self.image = self.dead_image
 			
 			if self.rect.y > -50:
 				self.rect.y -= 5
 				
-		# Draw player onto screen
+		# Draw player on the screen
 		screen.blit(self.image, self.rect)
 
 		return game_over
@@ -190,14 +195,15 @@ class Player():
 		self.images_left = []
 		self.index = 0
 		self.counter = 0
-		
+
+		# Sprite
 		for num in range(1, 5):
 			img_right = pygame.image.load(f'img/frog{num}.png')
 			img_right = pygame.transform.scale(img_right, (45, 50))
 			img_left = pygame.transform.flip(img_right, True, False)
 			self.images_right.append(img_right)
 			self.images_left.append(img_left)
-			
+
 		self.dead_image = pygame.image.load('img/ghost.png')
 		self.image = self.images_right[self.index]
 		self.rect = self.image.get_rect()
@@ -212,6 +218,7 @@ class Player():
 
 
 class World():
+	# information for level editor
 	def __init__(self, data):
 		self.tile_list = []
 
@@ -223,26 +230,30 @@ class World():
 		for row in data:
 			col_count = 0
 			for tile in row:
-				if tile == 1: #block
+				# Block
+				if tile == 1: 
 					img = pygame.transform.scale(dirt_img, (tile_size, tile_size))
 					img_rect = img.get_rect()
 					img_rect.x = col_count * tile_size
 					img_rect.y = row_count * tile_size
 					tile = (img, img_rect)
 					self.tile_list.append(tile)
-					
-				if tile == 2: #block_snow
+
+				# Block with snow
+				if tile == 2: 
 					img = pygame.transform.scale(grass_img, (tile_size, tile_size))
 					img_rect = img.get_rect()
 					img_rect.x = col_count * tile_size
 					img_rect.y = row_count * tile_size
 					tile = (img, img_rect)
 					self.tile_list.append(tile)
-					
-				if tile == 6: #lava
+
+				# Lava
+				if tile == 6: 
 					lava = Lava(col_count * tile_size, row_count * tile_size + (tile_size // 2))
 					lava_group.add(lava)
-					
+
+				# Exit
 				if tile == 8: 
 					exit = Exit(col_count * tile_size, row_count * tile_size)
 					exit_group.add(exit)
@@ -250,11 +261,13 @@ class World():
 				col_count += 1
 			row_count += 1
 
+	# Draw level
 	def draw(self):
 		for tile in self.tile_list:
 			screen.blit(tile[0], tile[1])
 
 
+# Initialisation of lava
 class Lava(pygame.sprite.Sprite):
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)
@@ -265,6 +278,7 @@ class Lava(pygame.sprite.Sprite):
 		self.rect.y = y
 
 
+# Initialisation of exit
 class Exit(pygame.sprite.Sprite):
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)
@@ -280,7 +294,6 @@ lava_group = pygame.sprite.Group()
 exit_group = pygame.sprite.Group()
 
 # Load in level data and create world 
-'''заимств'''
 if path.exists(f'level{level}_data'):
     pickle_in = open(f'level{level}_data', 'rb')
     world_data = pickle.load(pickle_in)
@@ -297,12 +310,14 @@ while run:
 	clock.tick(fps)
 	screen.blit(bg_img, (0, 0))
 
+	# Start main menu
 	if main_menu == True:
 		if exit_button.draw():
 			run = False
 		if start_button.draw():
 			main_menu = False
-			
+
+	# Start level
 	else:
 		world.draw()
 		lava_group.draw(screen)

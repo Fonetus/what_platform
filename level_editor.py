@@ -44,7 +44,7 @@ Images are loaded and transformed for use in the game as follows:
 :dirt Image: loaded from 'img/block.png'.
 :grass Image: loaded from 'img/block_snow.png'.
 :lava Image: loaded from 'img/lava.png'.
-:exit Image: loaded from 'img/por.png'.
+:exit Image: loaded from 'img/portal.png'.
 :save Image: loaded from 'img/save_btn.png'.
 :load Image: loaded from 'img/load_btn.png'.
 '''

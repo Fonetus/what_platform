@@ -22,7 +22,7 @@ tile_size = 50
 game_over = 0
 main_menu = True
 level = 0
-max_levels = 7
+max_levels = 2
 
 # Load images
 bg_img = pygame.image.load('img/blue.png')
@@ -343,7 +343,7 @@ while run:
 				
 			else:
 				if restart_button.draw():
-					level = 1 
+					level = 0 
 					# Reset level
 					world_data = []
 					world = reset_level(level)

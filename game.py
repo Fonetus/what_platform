@@ -1,8 +1,11 @@
 import pygame
 from pygame.locals import *
+from pygame import mixer
 import pickle
 from os import path
 
+pygame.mixer.pre_init(44100, -16, 2, 512)
+mixer.init()
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -18,7 +21,7 @@ pygame.display.set_caption('Platformer')
 tile_size = 50
 game_over = 0
 main_menu = True
-level = 1
+level = 0
 max_levels = 7
 
 # Load images
@@ -26,6 +29,14 @@ bg_img = pygame.image.load('img/blue.png')
 restart_img = pygame.image.load('img/restart.png')
 start_img = pygame.image.load('img/start.png')
 exit_img = pygame.image.load('img/exit.png')
+
+# Music and sounds
+pygame.mixer.music.load('sound/music.wav')
+pygame.mixer.music.play(-1, 0.0, 5000)
+jump_fx = pygame.mixer.Sound('sound/jump.wav')
+jump_fx.set_volume(0.5)
+game_over_fx = pygame.mixer.Sound('sound/game_over.wav')
+game_over_fx.set_volume(0.5)
 
 # Function to reset level
 def reset_level(level):
@@ -85,6 +96,7 @@ class Player():
 			key = pygame.key.get_pressed()
 			
 			if key[pygame.K_UP] and self.jumped == False and self.in_air == False:
+				jump_fx.play()
 				self.vel_y = -15
 				self.jumped = True
 				
@@ -153,6 +165,7 @@ class Player():
 			# Check for collision with lava
 			if pygame.sprite.spritecollide(self, lava_group, False):
 				game_over = -1
+				game_over_fx.play()
 			# Check for collision with exit
 			if pygame.sprite.spritecollide(self, exit_group, False):
 				game_over = 1

@@ -2,24 +2,52 @@ import pygame
 import pickle
 from os import path
 
-
+'''
+Pygame needs to be initialized using the command pygame.init().
+'''
 pygame.init()
 
+'''
+The frame rate of the game is set to 60 frames per second (fps) using the command:
+:clock: pygame.time.Clock()
+:fps: 60 
+'''
 clock = pygame.time.Clock()
 fps = 60
 
-#game window
+'''
+The game window is set up with the following parametrs:
+:tile size: 50
+:number of columns -- cols: 20
+:margin: 100
+:screen width: tile_size * columns
+:screen height: (tile size * columns) + margin 
+'''
 tile_size = 50
 cols = 20
 margin = 100
 screen_width = tile_size * cols
 screen_height = (tile_size * cols) + margin
 
+'''
+The game window is displayed using the command:
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption('Level Editor')
+'''
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Level Editor')
 
 
-#load images
+'''
+Images are loaded and transformed for use in the game as follows:
+:background Image: loaded from 'img/blue.png' and scaled to the game window size using pygame.transform.scale.
+:dirt Image: loaded from 'img/block.png'.
+:grass Image: loaded from 'img/block_snow.png'.
+:lava Image: loaded from 'img/lava.png'.
+:exit Image: loaded from 'img/por.png'.
+:save Image: loaded from 'img/save_btn.png'.
+:load Image: loaded from 'img/load_btn.png'.
+'''
 bg_img = pygame.image.load('img/blue.png')
 bg_img = pygame.transform.scale(bg_img, (screen_width, screen_height - margin))
 dirt_img = pygame.image.load('img/block.png')
@@ -29,24 +57,45 @@ exit_img = pygame.image.load('img/por.png')
 save_img = pygame.image.load('img/save_btn.png')
 load_img = pygame.image.load('img/load_btn.png')
 
-
-#define game variables
+'''
+The following game variables are defined:
+:clicked: a boolean variable that indicates whether the mouse button has been clicked.
+:level: an integer variable representing the current level of the game.
+'''
 clicked = False
 level = 0
 
-#define colours
+'''
+The following colours are defined using RGB values:
+:white: (255, 255, 255)
+:green: (144, 201, 120)
+'''
 white = (255, 255, 255)
 green = (144, 201, 120)
 
+'''
+A font is defined for use in the game with the following parameters:
+:font type: 'Futura'
+"font size: 30
+'''
 font = pygame.font.SysFont('Futura', 30)
 
-#create empty tile list
+'''
+An empty tile list, named world_data, is created and initialized 
+as a 20x20 grid with all elements set to 0.
+'''
 world_data = []
 for row in range(20):
 	r = [0] * 20
 	world_data.append(r)
 
-#create boundary
+'''
+the boundary of the game world is defined by setting specific tiles to different values as follows:
+:the bottom row (row 19) is set to 2.
+:the top row (row 0) is set to 1.
+- The leftmost column (column 0) is set to 1.
+- The rightmost column (column 19) is set to 1.
+'''
 for tile in range(0, 20):
 	world_data[19][tile] = 2
 	world_data[0][tile] = 1

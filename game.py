@@ -40,6 +40,12 @@ game_over_fx.set_volume(0.5)
 
 # Function to reset level
 def reset_level(level):
+	'''
+ 	function:: reset_level(level)
+   	Return the character, lava, exit to the beginning
+   	:param level: The level to be reset
+   	:return: world
+ 	'''
 	# Return the character, lava, exit to the beginning
 	player.reset(100, screen_height - 130)
 	lava_group.empty()
@@ -56,7 +62,20 @@ def reset_level(level):
 	
 
 class Button():
-	# Button initialisation
+	'''
+ 	class:: Button
+   	Button initialisation
+   	This class represents a button in a GUI. It provides methods for drawing the button and detecting mouse clicks on it.
+	:param x: The x-coordinate of the button
+	:param y: The y-coordinate of the button
+	:param image: The image to be displayed on the button
+	:ivar image: The image to be displayed on the button
+	:ivar rect: The rectangular area occupied by the button
+	:ivar clicked: A boolean indicating whether the button has been clicked
+	.. method:: draw()
+      	Draws the button on the screen and detects mouse clicks on the button.
+      	:return: action
+ 	'''
 	def __init__(self, x, y, image):
 		self.image = image
 		self.rect = self.image.get_rect()
@@ -86,7 +105,35 @@ class Button():
 
 
 class Player():
-	# Player initialisation
+	'''
+	class:: Player
+   	Player initialisation
+   	This class represents the player character in the game. It provides methods for updating the player's position and resetting the player.
+	:ivar images_right: List of images for the player character facing right
+	:ivar images_left: List of images for the player character facing left
+	:ivar index: Index of the current image in the player's animation
+	:ivar counter: Counter for animating the player's walk cycle
+	:ivar dead_image: Image to be displayed when the player character is dead
+	:ivar image: The current image displayed for the player
+	:ivar rect: The rectangular area occupied by the player
+	:ivar width: Width of the player's image
+	:ivar height: Height of the player's image
+	:ivar vel_y: Vertical velocity of the player
+	:ivar jumped: Boolean indicating whether the player has jumped
+	:ivar direction: Direction the player is facing
+	:ivar in_air: Boolean indicating whether the player is currently in the air
+   	.. method:: __init__(x, y)
+      	Initializes the player character with the specified x and y coordinates.
+   	.. method:: update(game_over)
+      	Updates the player's position and handles player movement based on keyboard input.
+	:param game_over: The game over status
+	:type game_over: int
+	:return: game_over
+	.. method:: reset(x, y)
+      	Resets the player's properties and images to their initial state.
+	:param x: The initial x-coordinate of the player
+	:param y: The initial y-coordinate of the player
+ 	'''
 	def __init__(self, x, y):
 		self.reset(x, y)
 		
@@ -218,7 +265,16 @@ class Player():
 
 
 class World():
-	# information for level editor
+	'''
+ 	.. class:: World
+   	A class for the level editor.
+   	.. method:: init(data)
+      	Initializes the World object with the given data.
+      	:param data: The data for the level.
+      	:type data: list of lists
+   	.. method:: draw()
+      	Draws the level.
+ 	'''
 	def __init__(self, data):
 		self.tile_list = []
 
@@ -267,8 +323,17 @@ class World():
 			screen.blit(tile[0], tile[1])
 
 
-# Initialisation of lava
 class Lava(pygame.sprite.Sprite):
+	'''
+ 	.. class:: Lava
+   	A class for representing lava sprite.
+   	.. method:: init(x, y)
+      	Initializes the Lava object with the given coordinates.
+      	:param x: The x-coordinate of the lava.
+      	:type x: int
+      	:param y: The y-coordinate of the lava.
+      	:type y: int
+ 	'''
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)
 		img = pygame.image.load('img/lava.png')
@@ -278,8 +343,17 @@ class Lava(pygame.sprite.Sprite):
 		self.rect.y = y
 
 
-# Initialisation of exit
 class Exit(pygame.sprite.Sprite):
+	'''
+ 	.. class:: Exit
+   	A class for representing the exit sprite.
+   	.. method:: init(x, y)
+      	Initializes the Exit object with the given coordinates.
+      	:param x: The x-coordinate of the exit.
+      	:type x: int
+      	:param y: The y-coordinate of the exit.
+      	:type y: int
+ 	'''
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)
 		img = pygame.image.load('img/portal.png')

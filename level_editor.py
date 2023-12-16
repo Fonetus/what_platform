@@ -53,7 +53,7 @@ bg_img = pygame.transform.scale(bg_img, (screen_width, screen_height - margin))
 dirt_img = pygame.image.load('img/block.png')
 grass_img = pygame.image.load('img/block_snow.png')
 lava_img = pygame.image.load('img/lava.png')
-exit_img = pygame.image.load('img/por.png')
+exit_img = pygame.image.load('img/portal.png')
 save_img = pygame.image.load('img/save_btn.png')
 load_img = pygame.image.load('img/load_btn.png')
 
